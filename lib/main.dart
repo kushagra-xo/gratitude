@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData(
             colorScheme: darkScheme,
             useMaterial3: true,
+            fontFamily: 'Larsseit',
           ),
           themeMode: ThemeMode.system,
           home: const MyHomePage(title: 'Gratify'),
@@ -65,7 +66,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> _entries = []; // this is a list of entries
+  final List<String> _entries = []; // this is a list of entries
   void _showAddEntryDialog(){ // this function handles the clicking of FAB(floating action button)
     /*
     A text editing controller object is your way to interact with the user input.
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
      */
     final TextEditingController controller = TextEditingController();
     showDialog(
-      context: context, // context is morever like, where and with what tools am i supposed to build this widget
+      context: context, // context is moreover like, where and with what tools am i supposed to build this widget
       builder: (BuildContext context){ // builder is like the recipe of construction
         return AlertDialog(
            title: Text("Add new entry"),
@@ -103,9 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold( // provides basic structure for the screen
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
         centerTitle: true,
-        toolbarHeight: 80,
+        toolbarHeight: 70,
       ),
       floatingActionButton:FloatingActionButton(
         onPressed: _showAddEntryDialog,
