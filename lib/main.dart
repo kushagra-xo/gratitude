@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gratitude App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Your Gratitude'),
+      home: const MyHomePage(title: 'Gratify'),
+      debugShowCheckedModeBanner: false,
     );
   }
   // mostly has meta-data such as the title, type of theme and so on
@@ -50,6 +50,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> _entries = []; // this is a list of entries
+  void _showAddEntryDialog(){ // this function handles the clicking of FAB(floating action button)
+    /*
+    A text editing controller object is your way to interact with the user input.
+    You can use this to access the text inserted by the user in the text field.
+     */
+    final TextEditingController controller = TextEditingController();
+    showDialog(
+      context: context, // context is morever like, where and with what tools am i supposed to build this widget
+      builder: (BuildContext context){ // builder is like the recipe of construction
+        return AlertDialog(
+           title: Text("Add new entry"),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(hintText: "What are you grateful for?"),
+          ),
+          actions: [
+            TextButton(onPressed: () {
+              Navigator.of(context).pop();
+            }, child: const Text("Cancel")
+            ),
+            TextButton(onPressed: (){
+              setState(() {
+                _entries.add(controller.text);
+              });
+              Navigator.of(context).pop();
+            }, child: const Text("Add")
+            )
+          ],
+        );
+      }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold( // provides basic structure for the screen
@@ -57,18 +90,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView(
-        children: const [
-          ListTile(
-            title: Text("I'm grateful for my family."),
-          ),
-          ListTile(
-            title: Text("I'm grateful for my health."),
-          ),
-          ListTile(
-            title: Text("I'm grateful for the opportunity to learn Flutter."),
-          ),
-        ],
+      floatingActionButton:FloatingActionButton(
+        onPressed: _showAddEntryDialog,
+        child: const Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: _entries.length,
+        itemBuilder: (BuildContext context, int index){
+          return ListTile(
+          title: Text(_entries[index]),
+          );
+        }
       ),
     );
   }
