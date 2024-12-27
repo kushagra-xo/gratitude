@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +16,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gratitude App',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Gratify'),
-      debugShowCheckedModeBanner: false,
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        final ColorScheme lightScheme = lightDynamic ??
+            ColorScheme.fromSeed(seedColor: Colors.deepPurple);
+        final ColorScheme darkScheme = darkDynamic ?? ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, brightness: Brightness.dark);
+        return MaterialApp(
+          title: 'Gratitude App',
+          theme: ThemeData(
+            colorScheme: lightScheme,
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkScheme,
+            useMaterial3: true,
+          ),
+          themeMode: ThemeMode.system,
+          home: const MyHomePage(title: 'Gratify'),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
   // mostly has meta-data such as the title, type of theme and so on
@@ -88,7 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold( // provides basic structure for the screen
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold),),
+        centerTitle: true,
+        toolbarHeight: 80,
       ),
       floatingActionButton:FloatingActionButton(
         onPressed: _showAddEntryDialog,
