@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:intl/intl.dart'; // Import intl for date formatting
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,6 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData(
             colorScheme: darkScheme,
             useMaterial3: true,
-            fontFamily: 'Larsseit',
           ),
           themeMode: ThemeMode.system,
           home: const MyHomePage(title: 'Gratify'),
@@ -66,7 +66,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> _entries = []; // this is a list of entries
+  final List<Map<String, String>> gratitudeEntries = [];
+
+  String formatDate(String date){
+    final DateTime parsedDate = DateTime.parse(date);
+    return DateFormat("MMMM d, yyyy").format(parsedDate);
+  }
   void _showAddEntryDialog(){ // this function handles the clicking of FAB(floating action button)
     /*
     A text editing controller object is your way to interact with the user input.
@@ -89,7 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(onPressed: (){
               setState(() {
-                _entries.add(controller.text);
+                gratitudeEntries.add({
+                  "date": DateTime.now().toLocal().toString().split(' ')[0],
+                  "text": controller.text,
+                });
               });
               Navigator.of(context).pop();
             }, child: const Text("Add")
@@ -104,19 +112,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold( // provides basic structure for the screen
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
-        centerTitle: true,
+        title: Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),),
         toolbarHeight: 70,
+        centerTitle: true,
       ),
       floatingActionButton:FloatingActionButton(
         onPressed: _showAddEntryDialog,
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: _entries.length,
+        itemCount: gratitudeEntries.length,
         itemBuilder: (BuildContext context, int index){
+          final entry = gratitudeEntries.reversed.toList()[index];
+          final text = entry["text"] ?? "No Text";
+          final date = formatDate(entry["date"] ?? "2024-01-01");
           return ListTile(
-          title: Text(_entries[index]),
+            title: Text(text),
+            subtitle: Text(date),
           );
         }
       ),
