@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         itemBuilder: (BuildContext context, int index){
           final entry = gratitudeEntries.reversed.toList()[index];
           final text = entry["text"] ?? "No Text";
-          final date = formatDate(entry["date"] ?? "2024-01-01");
+          final date = formatDate(entry["date"] ?? "No Date");
           return ListTile(
             title: Text(text),
             subtitle: Text(date),
