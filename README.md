@@ -10,5 +10,9 @@ This project is heavily inspired by [Presently](https://github.com/alisonthemons
 
 Note: This is not a fork, and is being developed from the ground up in flutter.
 
+## Screenshots
+![image](https://github.com/user-attachments/assets/2cba7855-ce2f-4577-b41a-0fd42285be77)
+
+Note: Only indicative of the current development, and not the final goal.
 ## Credits
 - Flutter
