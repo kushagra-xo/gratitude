@@ -1,6 +1,8 @@
 # gratitude
 
-a simple app to log your gratitude
+![](https://img.shields.io/badge/Framework-Flutter-pink)
+
+A simple cross-platform application to log your gratitude.
 
 ## Inspiration
 This project is heavily inspired by [Presently](https://github.com/alisonthemonster/Presently), and I started it for two reasons:
